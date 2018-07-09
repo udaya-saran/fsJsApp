@@ -2,7 +2,7 @@ $(document).ready(function(){
     $(document).on('click', '.create-device-button', function(){
         var create_device_html="";
 
-        create_device_html+="<div id='read-devices' class='btn btn-primary pull-right m-b-15px read-devices-button'>";
+        create_device_html+="<div id='read-devices' class='btn btn-primary pull-right m-b-15px read-device-button'>";
             create_device_html+="<span class='glyphicon glyphicon-list'></span> List";
         create_device_html+="</div>";
 
