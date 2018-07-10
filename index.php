@@ -20,5 +20,10 @@
     <script src="app/device/create.js"></script>
     <script src="app/device/update.js"></script>
     <script src="app/device/delete.js"></script>
+
+    <script src="app/deviceentry/read.js"></script>
+    <script src="app/deviceentry/create.js"></script>
+    <script src="app/deviceentry/update.js"></script>
+    <script src="app/deviceentry/delete.js"></script>
 </body>
 </html>

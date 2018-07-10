@@ -4,7 +4,9 @@ $(document).ready(function(){
 
 function showDevices()
 {
-    $.getJSON("http://localhost/fsRestApi/Device/read.php", function(data) {
+    var framedUrl = restApiUrl + deviceUrl + readPath;
+    $.getJSON(framedUrl, function(data) {
+        console.log("URL: " + framedUrl);
         var read_devices_html="";
 
         read_devices_html+="<div id='create-device' class='btn btn-primary pull-right m-b-15px create-device-button'>";
@@ -20,10 +22,14 @@ function showDevices()
                 read_devices_html+="<th class='w-10-pct'>Created On</th>";
                 read_devices_html+="<th class='w-20-pct text-align-center'>Action</th>";
             read_devices_html+="</tr>";
-
+            var recordFound = 0;
             $.each(data.records, function(key, val) {
+                recordFound = 1;
                 if (val.last_reported_at === null) {
                     val.last_reported_at = "";
+                }
+                if (val.status === "NIL") {
+                    val.status = "";
                 }
 
                 read_devices_html+="<tr>";
@@ -47,6 +53,9 @@ function showDevices()
                 read_devices_html+="</tr>";
             });
 
+        if (recordFound == 0) {
+            read_devices_html+="<tr><td colspan='6' class='text-align-center'>" + data.message + "</td></tr>";
+        }
         read_devices_html+="</table>";
         $("#page-content").html(read_devices_html);
         changePageTitle("Device List");

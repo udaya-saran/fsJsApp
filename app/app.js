@@ -1,8 +1,17 @@
+var restApiUrl = "http://localhost/fsRestApi/";
+var deviceUrl = "Device/";
+var deviceEntryUrl = "DeviceEntry/";
+var readPath = "read.php";
+var readAllPath = "readAll.php";
+var createPath = "create.php";
+var updatePath = "update.php";
+var deletePath = "delete.php";
+
 $(document).ready(function(){
     app_html="";
     app_html+="<div class='container'>";
         app_html+="<div class='page-header'>";
-            app_html+="<h1 id='page-title'>Device List</h1>";
+            app_html+="<h2 id='page-title'>Device List</h2>";
         app_html+="</div>";
         app_html+="<div id='page-content'></div>";
     app_html+="</div>";
