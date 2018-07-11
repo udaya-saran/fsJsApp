@@ -1,7 +1,8 @@
 $(document).ready(function(){
 
-    $(document).on('click', '.delete-device-button', function(){
-        var dev_id = $(this).attr('data-id');
+    $(document).on('click', '.delete-device-entry-button', function(){
+        var dev_entry_id = $(this).attr('data-entry-id');
+        var dev_id = $(this).attr('data-device-id');
 
         bootbox.confirm({
             message: "<h4>Are you sure?</h4>",
@@ -17,13 +18,14 @@ $(document).ready(function(){
             },
             callback: function (result) {
                 if (result == true) {
+                    var framedUrl = restApiUrl + deviceEntryUrl + deletePath;
                     $.ajax({
-                        url: "http://localhost/fsRestApi/Device/delete.php",
+                        url: framedUrl,
                         type : "POST",
                         dataType : 'json',
-                        data : JSON.stringify({ id: dev_id }),
+                        data : JSON.stringify({ entry_id: dev_entry_id }),
                         success : function(result) {
-                            showDevices();
+                            showDeviceEntries(dev_id);
                         },
                         error: function(xhr, resp, text) {
                             console.log(xhr, resp, text);

@@ -1,6 +1,15 @@
+function getTzOff()
+{
+    var timezone_offset_minutes = new Date().getTimezoneOffset();
+    if (timezone_offset_minutes < -720 && timezone_offset_minutes > 840) {
+        timezone_offset_minutes = 0;
+    }
+    return(timezone_offset_minutes);
+}
+
 function showDeviceEntries(device_id)
 {
-    var param = "?device_id=" + device_id;
+    var param = "?tiZo=" + getTzOff() + "&device_id=" + device_id;
     var framedUrl = restApiUrl + deviceEntryUrl + readPath + param;
     $.getJSON(framedUrl, function(data) {
         console.log("URL: " + framedUrl);
@@ -39,17 +48,17 @@ function showDeviceEntries(device_id)
                     read_device_entries_html+="<td>" + val.reported_at + "</td>";
 
                     read_device_entries_html+="<td>";
-                        read_device_entries_html+="<button class='btn btn-info m-r-10px update-device-entry-button' data-id='" + val.entry_id + "'>";
+                        read_device_entries_html+="<button class='btn btn-info m-r-10px update-device-entry-button' data-entry-id='" + val.entry_id + "'>";
                             read_device_entries_html+="<span class='glyphicon glyphicon-edit'></span> Edit";
                         read_device_entries_html+="</button>";
-                        read_device_entries_html+="<button class='btn btn-danger delete-device-entry-button' data-id='" + val.entry_id + "'>";
+                        read_device_entries_html+="<button class='btn btn-danger delete-device-entry-button' data-entry-id='" + val.entry_id + "' data-device-id='" + val.device_id + "'>";
                             read_device_entries_html+="<span class='glyphicon glyphicon-remove'></span> Delete";
                         read_device_entries_html+="</button>";
                     read_device_entries_html+="</td>";
                 read_device_entries_html+="</tr>";
             });
             
-            if (recordFound == 0) {
+            if (recordFound === 0) {
                 read_device_entries_html+="<tr><td colspan='6' class='text-align-center'>" + data.message + "</td></tr>";
             }
 
