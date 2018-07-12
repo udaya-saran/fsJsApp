@@ -14,17 +14,14 @@ function getTzOff()
 function showDevices()
 {
     var paramTz = getTzOff();
-    var framedUrl = restApiUrl + deviceUrl + readPath;
-    console.log("JS TiZo: " + paramTz);
-    framedUrl += "?tiZo=" + paramTz;
+    var framedUrl = restApiUrl + deviceUrl + readPath + "?tiZo=" + paramTz;
     $.getJSON(framedUrl, function(data) {
-        console.log("URL: " + framedUrl);
         var read_devices_html="";
         var recordFound = 0;
         var statusButton = "";
 
         read_devices_html+="<div id='create-device' class='btn btn-primary pull-right m-b-15px create-device-button'>";
-            read_devices_html+="<span class='glyphicon glyphicon-plus'></span> Create";
+            read_devices_html+="<span class='glyphicon glyphicon-plus'></span> Create Device";
         read_devices_html+="</div>";
 
         read_devices_html+="<table class='table table-bordered table-hover'>";
@@ -43,7 +40,6 @@ function showDevices()
                     val.last_reported_at = "";
                 }
 
-                
                 if (val.status === "NIL") {
                     val.status = "";
                     statusButton = "";

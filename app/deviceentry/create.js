@@ -4,7 +4,6 @@ $(document).ready(function() {
         var deviceListUrl = restApiUrl + deviceUrl + readAllPath;
 
         $.getJSON(deviceListUrl, function(data) {
-            // console.log("URL: " + deviceListUrl);
             var device_option_list="<select name='device_id' class='form-control'>";
             var selected_attr = "";
             $.each(data.records, function(key, val) {
@@ -13,7 +12,7 @@ $(document).ready(function() {
                 }
                 device_option_list+="<option value='" + val.id + "'" + selected_attr + ">" + val.label + "</option>";
                 selected_attr = "";
-            });
+            }, device_id);
             device_option_list+="</select>";
             var create_device_entries_html="";            
             create_device_entries_html+="<div id='read-devices' class='btn btn-primary pull-right m-b-15px read-device-button'>";

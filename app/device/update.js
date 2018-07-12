@@ -2,12 +2,13 @@ $(document).ready(function(){
 
     $(document).on('click', '.update-device-button', function(){
         var id = $(this).attr('data-id');
-        $.getJSON("http://localhost/fsRestApi/Device/read.php?id=" + id, function(data) {
+        var framedUrl = restApiUrl + deviceUrl + readPath + "?id=" + id;
+        $.getJSON(framedUrl, function(data) {
             var label = data.records[0].label;
             var update_device_html="";
 
             update_device_html+="<div id='read-devices' class='btn btn-primary pull-right m-b-15px read-device-button'>";
-                update_device_html+="<span class='glyphicon glyphicon-list'></span> List";
+                update_device_html+="<span class='glyphicon glyphicon-list'></span> Device List";
             update_device_html+="</div>";
             update_device_html+="<form id='update-device-form' action='#' method='post' border='0'>";
                 update_device_html+="<table class='table table-hover table-responsive table-bordered'>";

@@ -12,14 +12,13 @@ function showDeviceEntries(device_id)
     var param = "?tiZo=" + getTzOff() + "&device_id=" + device_id;
     var framedUrl = restApiUrl + deviceEntryUrl + readPath + param;
     $.getJSON(framedUrl, function(data) {
-        console.log("URL: " + framedUrl);
         var read_device_entries_html="";
 
         read_device_entries_html+="<div id='create-device-entry' class='btn btn-primary pull-right m-b-15px m-l-10px create-device-entry-button' data-device-id='" + device_id + "'>";
-            read_device_entries_html+="<span class='glyphicon glyphicon-plus'></span> Create";
+            read_device_entries_html+="<span class='glyphicon glyphicon-plus'></span> Create Entry";
         read_device_entries_html+="</div>";
         
-        read_device_entries_html+="<div id='create-device-entry' class='btn btn-primary pull-right m-b-15px read-device-button'>";
+        read_device_entries_html+="<div class='btn btn-primary pull-right m-b-15px read-device-button'>";
             read_device_entries_html+="<span class='glyphicon glyphicon-list'></span> Device List";
         read_device_entries_html+="</div>";
 
@@ -64,7 +63,7 @@ function showDeviceEntries(device_id)
 
         read_device_entries_html+="</table>";
         $("#page-content").html(read_device_entries_html);
-        changePageTitle("Device Entry List");
+        changePageTitle("Entry List");
     });
 }
 
