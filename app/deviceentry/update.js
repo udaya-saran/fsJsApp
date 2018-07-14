@@ -13,7 +13,7 @@ $(document).ready(function() {
                 var selected_attr = "";
                 $.each(data.records, function(key, val) {
                     if (parseInt(device_id) === parseInt(val.id)) {
-                        selected_attr = " SELECTED";
+                        selected_attr = " selected='selected'";
                     }
                     device_option_list+="<option value='" + val.id + "'" + selected_attr + ">" + val.label + "</option>";
                     selected_attr = "";

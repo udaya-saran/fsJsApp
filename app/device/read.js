@@ -1,3 +1,5 @@
+var dev_page = 1;
+
 $(document).ready(function(){
     showDevices();
 });
@@ -14,7 +16,7 @@ function getTzOff()
 function showDevices()
 {
     var paramTz = getTzOff();
-    var framedUrl = restApiUrl + deviceUrl + readPath + "?tiZo=" + paramTz;
+    var framedUrl = restApiUrl + deviceUrl + readPath + "?tiZo=" + paramTz + "&page=" + dev_page;
     $.getJSON(framedUrl, function(data) {
         var read_devices_html="";
         var recordFound = 0;
@@ -23,6 +25,29 @@ function showDevices()
         read_devices_html+="<div id='create-device' class='btn btn-primary pull-right m-b-15px create-device-button'>";
             read_devices_html+="<span class='glyphicon glyphicon-plus'></span> Create Device";
         read_devices_html+="</div>";
+
+        var page_option_list="";
+        if (data.paging.totalRecords > 0 && data.paging.page > 0 && data.paging.rpp > 0) {
+            var totalPages = parseInt((data.paging.totalRecords % data.paging.rpp > 0) ? (data.paging.totalRecords / data.paging.rpp + 1) : (data.paging.totalRecords / data.paging.rpp));
+            if (totalPages > 1) {
+                
+                page_option_list+="<div class='pull-left m-b-20px'>Page: </div>";
+                page_option_list+="<div class='pull-left m-b-15px m-l-10px'>";
+                page_option_list+="<select name='page' class='form-control read-device-bypage'>";
+                var selected_attr = "";
+                for (var pageNo = 1; pageNo <= totalPages; pageNo++) {
+                    if (parseInt(data.paging.page) === pageNo) {
+                        selected_attr = " selected='selected'";
+                    }
+                    page_option_list+="<option value='" + pageNo + "'" + selected_attr + ">" + pageNo + "</option>";
+                    selected_attr = "";
+                }
+                page_option_list+="</select>";
+                page_option_list+="</div>";
+                page_option_list+="<div class='pull-left m-b-20px m-l-10px'> / " + totalPages + " </div>";
+            }
+        }
+        read_devices_html+=page_option_list;
 
         read_devices_html+="<table class='table table-bordered table-hover'>";
             read_devices_html+="<tr>";
@@ -82,5 +107,10 @@ function showDevices()
 }
 
 $(document).on('click', '.read-device-button', function(){
+    showDevices();
+});
+
+$(document).on('change', '.read-device-bypage', function(){
+    dev_page = parseInt($(this).val());
     showDevices();
 });

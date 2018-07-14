@@ -1,3 +1,5 @@
+var entry_page = 1;
+
 function getTzOff()
 {
     var timezone_offset_minutes = new Date().getTimezoneOffset();
@@ -9,7 +11,7 @@ function getTzOff()
 
 function showDeviceEntries(device_id)
 {
-    var param = "?tiZo=" + getTzOff() + "&device_id=" + device_id;
+    var param = "?tiZo=" + getTzOff() + "&device_id=" + device_id + "&page=" + entry_page;
     var framedUrl = restApiUrl + deviceEntryUrl + readPath + param;
     $.getJSON(framedUrl, function(data) {
         var read_device_entries_html="";
@@ -21,6 +23,28 @@ function showDeviceEntries(device_id)
         read_device_entries_html+="<div class='btn btn-primary pull-right m-b-15px read-device-button'>";
             read_device_entries_html+="<span class='glyphicon glyphicon-list'></span> Device List";
         read_device_entries_html+="</div>";
+
+        var page_option_list="";
+        if (data.paging.totalRecords > 0 && data.paging.page > 0 && data.paging.rpp > 0) {
+            var totalPages = parseInt((data.paging.totalRecords % data.paging.rpp > 0) ? (data.paging.totalRecords / data.paging.rpp + 1) : (data.paging.totalRecords / data.paging.rpp));
+            if (totalPages > 1) {
+                page_option_list+="<div class='pull-left m-b-20px'>Page: </div>";
+                page_option_list+="<div class='pull-left m-b-15px m-l-10px'>";
+                page_option_list+="<select name='page' class='form-control read-device-entry-bypage' data-id='" + device_id + "'>";
+                var selected_attr = "";
+                for (var pageNo = 1; pageNo <= totalPages; pageNo++) {
+                    if (parseInt(data.paging.page) === pageNo) {
+                        selected_attr = " selected='selected'";
+                    }
+                    page_option_list+="<option value='" + pageNo + "'" + selected_attr + ">" + pageNo + "</option>";
+                    selected_attr = "";
+                }
+                page_option_list+="</select>";
+                page_option_list+="</div>";
+                page_option_list+="<div class='pull-left m-b-20px m-l-10px'> / " + totalPages + " </div>";
+            }
+        }
+        read_device_entries_html+=page_option_list;
 
         read_device_entries_html+="<table class='table table-bordered table-hover'>";
             read_device_entries_html+="<tr>";
@@ -69,5 +93,11 @@ function showDeviceEntries(device_id)
 
 $(document).on('click', '.read-device-entry-button', function() {
     var device_id = $(this).attr('data-id');
+    showDeviceEntries(device_id);
+});
+
+$(document).on('change', '.read-device-entry-bypage', function(){
+    var device_id = $(this).attr('data-id');
+    entry_page = parseInt($(this).val());
     showDeviceEntries(device_id);
 });

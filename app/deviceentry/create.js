@@ -8,7 +8,7 @@ $(document).ready(function() {
             var selected_attr = "";
             $.each(data.records, function(key, val) {
                 if (device_id === parseInt(val.id)) {
-                    selected_attr = " SELECTED";
+                    selected_attr = " selected='selected'";
                 }
                 device_option_list+="<option value='" + val.id + "'" + selected_attr + ">" + val.label + "</option>";
                 selected_attr = "";
@@ -56,7 +56,7 @@ $(document).ready(function() {
     });
 
     $(document).on('submit', '#create-device-entry-form', function() {
-        var device_id = $(this).attr('data-device-id');
+        var device_id = $('select[name="device_id"] option:selected').val();
         var form_data=JSON.stringify($(this).serializeObject());
         var framedUrl = restApiUrl + deviceEntryUrl + createPath;
 
